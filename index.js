@@ -10,11 +10,18 @@ app.use(methodOverride());
 
 var router = express.Router();
 
-router.get('/', function(req, res) {
-   res.send("Hello World!");
-});
+var HotelesCtrl = require('./controllers/hoteles');
 
-app.use(router);
+// API routes
+var hoteles = express.Router();
+
+hoteles.route('/hoteles')
+  .get(HotelesCtrl.getAllHoteles);
+
+hoteles.route('/hoteles/stars/:stars')
+  .get(HotelesCtrl.findByStars);
+
+app.use('/api', hoteles);
 
 app.listen(3000, function() {
   console.log("Node server running on http://localhost:3000");
